@@ -1,0 +1,54 @@
+// 暗色 navlink
+.theme-dark-navlink {
+  transition: background-color 0.3s;
+
+    &:hover {
+      color: white;   
+      background-color: gray;
+    }
+  }
+  
+  .theme-dark-navlink-active {
+    color: black;
+    font-weight: bold;
+    background-color: white;
+  }
+  
+
+// 比例
+  .ratio-1x1{
+    aspect-ratio: 1 / 1;
+  }
+  
+
+// 背景圖片
+  .bg-img-contain{
+    background-size: contain;
+  }
+  
+  .bg-img-cover{
+    background-size: cover;
+  }
+  
+  .bg-img-center{
+    background-position: center;
+  }
+  
+  .bg-img-norepeat{
+    background-repeat: no-repeat;
+  }
+
+
+// 連結互動
+.link-hover-decoration:hover{
+  text-decoration:underline;
+}
+
+
+// 文字
+//文字單行省略
+.single-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

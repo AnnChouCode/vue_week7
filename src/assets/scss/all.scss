@@ -1,0 +1,21 @@
+// bootstrap
+@import "bootstrap/scss/functions";
+@import './utils/variables'; 
+@import "bootstrap/scss/bootstrap";
+@import "./utils/_reboot.scss";
+
+// bootstrap icon
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+// custom
+@import './base/base';
+@import './base/utility';
+@import './utils/custom'; 
+
+// components
+@import './components/btn-sweetalert'; 
+@import './components/form-check'; 
+@import './components/editor-block'; 
+
+// pages
+@import "vue-loading-overlay/dist/css/index.css";
