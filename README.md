@@ -1,7 +1,5 @@
-# vue homework - week6
-https://annchoucode.github.io/vue_week6/
-
-> 這是六角學院的 Vue 樣板，是基於 Vite 所建立的專案。
+# vue homework - week7
+https://annchoucode.github.io/vue_week7/
 
 Node.js 版本建議為：18.17.1 以上
 
@@ -12,13 +10,7 @@ Node.js 版本建議為：18.17.1 以上
 ### 取得專案
 
 ```bash
-git clone https://github.com/hexschool/vite-template.git
-```
-
-### 移動到專案資料夾
-
-```bash
-cd vite-template
+git clone https://github.com/AnnChouCode/vue_week7.git
 ```
 
 ## 環境變數
@@ -80,6 +72,8 @@ npm run deploy
 - vee-validate (^4.12.5)
 - vue-loading-overlay (6.0)
 - vue-sweetalert2 (^5.0.5)
+- ckeditor5-vue" (^5.1.0)
+
 
 ## 資料夾結構
 
