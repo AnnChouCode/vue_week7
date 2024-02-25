@@ -1,54 +1,51 @@
 <template>
-    <div class="container">
-        <h2 class="py-5 h2 text-center">看產品</h2>
-        <!-- 分類篩選 -->
-        <filterCategory @get-Product-List="getProductList"></filterCategory>
-        <!-- 產品列表 -->
-        <table class="table align-middle">
-          <thead>
-            <tr>
-              <th>圖片</th>
-              <th>商品名稱</th>
-              <th>價格</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="product in productsList" :key="product.id">
-              <td style="width: 200px">
-                <div style="height: 100px; background-size: cover; background-position: center;"
-                  :style="{backgroundImage: `url(${product.imageUrl})`}">
-                </div>
-              </td>
-              <td>
-                {{ product.title }}
-              </td>
-              <td>
-                <div class="h5" v-if="!product.price">{{ product.origin_price }} 元</div>
-                <div v-else>
-                  <del class="h6">原價 {{ product.origin_price }} 元</del>
-                  <div class="h5">現在只要 {{ product.price }} 元</div>
-                </div>
-              </td>
-              <td>
-                <div class="btn-group btn-group-sm">
-                  <button type="button" class="btn btn-outline-default" @click="showProductInfo(product.id)">
-                    查看更多
-                  </button>
-                  <button type="button" class="btn btn-default" @click="addToCart(product.id, 1)">
-                    加到購物車
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <!-- 頁碼 -->
-        <paginationComponent
-        :pagination="pagination"
-        @get-List="getProductList"
-      ></paginationComponent>
-    </div>
+  <div class="container">
+    <h2 class="py-5 h2 text-center">看產品</h2>
+    <!-- 分類篩選 -->
+    <filterCategory @get-Product-List="getProductList"></filterCategory>
+    <!-- 產品列表 -->
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>圖片</th>
+          <th>商品名稱</th>
+          <th>價格</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="product in productsList" :key="product.id">
+          <td style="width: 200px">
+            <div style="height: 100px; background-size: cover; background-position: center;"
+              :style="{ backgroundImage: `url(${product.imageUrl})` }">
+            </div>
+          </td>
+          <td>
+            {{ product.title }}
+          </td>
+          <td>
+            <div class="h5" v-if="!product.price">{{ product.origin_price }} 元</div>
+            <div v-else>
+              <del class="h6">原價 {{ product.origin_price }} 元</del>
+              <div class="h5">現在只要 {{ product.price }} 元</div>
+            </div>
+          </td>
+          <td>
+            <div class="btn-group btn-group-sm">
+              <button type="button" class="btn btn-outline-default" @click="showProductInfo(product.id)">
+                查看更多
+              </button>
+              <button type="button" class="btn btn-default" @click="addToCart(product.id, 1)">
+                加到購物車
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- 頁碼 -->
+    <paginationComponent :pagination="pagination" @get-List="getProductList"></paginationComponent>
+  </div>
 </template>
 
 <script>

@@ -147,7 +147,6 @@ export default {
     logout () {
       document.cookie = 'user=;expires=;'
       this.$router.push('/home')
-      // adminLoginStore.logout()
     }
   },
   computed: {

@@ -8,21 +8,21 @@ const { VITE_API, VITE_PATH } = import.meta.env
 
 export const useAllAdminOrderStore = defineStore('adminOrders', {
   state: () => ({
-    // 所有訂單
-    allOrders: [],
+    // 當頁訂單列表
+    currentOrderList: [],
     // 頁碼
     pagination: {}
   }),
   actions: {
-    // 獲取所有訂單
-    getAllOrders (page = 1) {
+    // 獲取當頁訂單列表
+    getCurrentOrderList (page = 1) {
       const url = `${VITE_API}/api/${VITE_PATH}/admin/orders?page=${page}`
 
       // 返回 promise
       return axios.get(url)
         .then(res => {
           const { orders, pagination } = res.data
-          this.allOrders = orders
+          this.currentOrderList = orders
           this.pagination = pagination
 
           return res // 要傳回的資料

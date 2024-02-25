@@ -166,7 +166,9 @@ export default {
       // 產品分類列表
       tempCategoryList: [],
       // 增加封面或圖片
-      isCover: false
+      isCover: false,
+      // 客製化 info check alert 按鈕
+      swalInfoCheckWithBootstrapButtons: null
     }
   },
   methods: {
@@ -228,11 +230,15 @@ export default {
 
       this.axios[method](url, { data: this.tempProductInfo })
         .then((res) => {
-          this.$swal.fire(res.data.message)
+          this.swalInfoCheckWithBootstrapButtons.fire(res.data.message)
           this.$router.push('/admin/products')
         })
         .catch((err) => {
-          this.$swal.fire(err.response.data.message)
+          this.swalInfoCheckWithBootstrapButtons.fire({
+            icon: 'error',
+            text: err.response.data.message,
+            confirmButtonText: '確認'
+          })
         })
     },
 
@@ -272,6 +278,14 @@ export default {
 
     // 獲取所有資料
     this.fetchData(id)
+
+    // 客製化 info check alert 按鈕
+    this.swalInfoCheckWithBootstrapButtons = this.$swal.mixin({
+      customClass: {
+        confirmButton: 'm-1 btn btn-default'
+      },
+      buttonsStyling: false
+    })
   }
 }
 </script>

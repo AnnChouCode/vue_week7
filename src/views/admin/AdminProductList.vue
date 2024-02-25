@@ -78,7 +78,11 @@ export default {
       // 產品列表
       productsList: [],
       // 頁碼
-      pagination: {}
+      pagination: {},
+      // 客製化 question alert 按鈕
+      swalQuestionWithBootstrapButtons: null,
+      // 客製化 info check alert 按鈕
+      swalInfoCheckWithBootstrapButtons: null
     }
   },
   methods: {
@@ -97,9 +101,9 @@ export default {
           this.pagination = pagination
         })
         .catch((err) => {
-          this.$swal.fire({
-            icon: 'error',
-            text: err.response.data.message
+          this.swalInfoCheckWithBootstrapButtons.fire({
+            text: err.response.data.message,
+            confirmButtonText: '確認'
           })
         })
     },
@@ -114,14 +118,12 @@ export default {
       const url = `${VITE_API}/api/${VITE_PATH}/admin/product/${id}`
 
       // 刪除前詢問
-      this.$swal
+      this.swalQuestionWithBootstrapButtons
         .fire({
           title: '確定要刪除產品嗎？',
           text: '這個動作無法復原',
           icon: 'question',
           showCancelButton: true,
-          confirmButtonColor: '#787878',
-          cancelButtonColor: '#333333',
           cancelButtonText: '取消',
           confirmButtonText: '確認刪除'
         })
@@ -134,18 +136,18 @@ export default {
               .delete(url)
               .then((res) => {
                 // 提示訊息
-                this.$swal.fire({
+                this.swalInfoCheckWithBootstrapButtons.fire({
                   title: res.data.message,
-                  confirmButtonColor: '#333333',
                   confirmButtonText: '確認'
                 })
                 // 重整購物車
                 this.getProductList()
               })
               .catch((err) => {
-                this.$swal.fire({
+                this.swalInfoCheckWithBootstrapButtons.fire({
                   icon: 'error',
-                  text: err.response.data.message
+                  text: err.response.data.message,
+                  confirmButtonText: '確認'
                 })
               })
               .finally(() => {
@@ -159,6 +161,22 @@ export default {
   mounted () {
     // 獲取產品列表
     this.getProductList()
+
+    // 客製化 question alert 按鈕
+    this.swalQuestionWithBootstrapButtons = this.$swal.mixin({
+      customClass: {
+        confirmButton: 'm-1 btn btn-outline-default',
+        cancelButton: 'm-1 btn btn-default'
+      },
+      buttonsStyling: false
+    })
+    // 客製化 info check alert 按鈕
+    this.swalInfoCheckWithBootstrapButtons = this.$swal.mixin({
+      customClass: {
+        confirmButton: 'm-1 btn btn-default'
+      },
+      buttonsStyling: false
+    })
   },
   components: {
     paginationComponent

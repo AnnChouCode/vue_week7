@@ -173,25 +173,27 @@
               </div>
               <div class="col-12" v-if="tempArticleInfo.relatedProduct">
                 <div class="row g-3 g-md-1">
-                <div class="col-6 col-md-4" v-for="product in tempArticleInfo.relatedProduct" :key="product" style="min-height:48px;">
-                  <div class="border rounded-2 overflow-hidden h-100">
-                    <div class="row g-3">
-                      <div class="col-4">
-                        <div :style="`background-image:url(${product.imageUrl})`"
-                          class="h-100 bg-img-cover bg-img-center bg-img-norepeat ratio-1x1" style="min-height: 48px;"></div>
-                      </div>
-                      <div class="col-6 d-flex align-items-center">
-                        {{ product.title }}
-                      </div>
-                      <div class="col-2 d-flex justify-content-end">
-                        <button type="button" class="btn" @click="deleteRelatedProduct(product)">
-                          <i class="bi bi-x text-info"></i>
-                        </button>
+                  <div class="col-6 col-md-4" v-for="product in tempArticleInfo.relatedProduct" :key="product"
+                    style="min-height:48px;">
+                    <div class="border rounded-2 overflow-hidden h-100">
+                      <div class="row g-3">
+                        <div class="col-4">
+                          <div :style="`background-image:url(${product.imageUrl})`"
+                            class="h-100 bg-img-cover bg-img-center bg-img-norepeat ratio-1x1" style="min-height: 48px;">
+                          </div>
+                        </div>
+                        <div class="col-6 d-flex align-items-center">
+                          {{ product.title }}
+                        </div>
+                        <div class="col-2 d-flex justify-content-end">
+                          <button type="button" class="btn" @click="deleteRelatedProduct(product)">
+                            <i class="bi bi-x text-info"></i>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
               </div>
             </div>
           </div>
@@ -255,7 +257,9 @@ export default {
         productList: [],
         currentCategory: '',
         currentProduct: []
-      }
+      },
+      // 客製化 info check alert 按鈕
+      swalInfoCheckWithBootstrapButtons: null
     }
   },
   watch: {
@@ -283,7 +287,11 @@ export default {
           this.updateTag(res.data.article.author)
         })
         .catch((err) => {
-          this.$swal.fire(err.response.data.message)
+          this.swalInfoCheckWithBootstrapButtons.fire({
+            icon: 'error',
+            text: err.response.data.message,
+            confirmButtonText: '確認'
+          })
         })
     },
 
@@ -402,15 +410,18 @@ export default {
 
       this.axios[method](url, { data: this.tempArticleInfo })
         .then((res) => {
-          this.$swal.fire({
+          this.swalInfoCheckWithBootstrapButtons.fire({
             title: res.data.message,
-            confirmButtonColor: '#333333',
             confirmButtonText: '確認'
           })
           this.$router.push('/admin/articles')
         })
         .catch((err) => {
-          this.$swal.fire(err.response.data.message.join('、'))
+          this.swalInfoCheckWithBootstrapButtons.fire({
+            icon: 'error',
+            text: err.response.data.message.join('、'),
+            confirmButtonText: '確認'
+          })
         })
     }
   },
@@ -438,6 +449,14 @@ export default {
     // 增加標籤清單
     productsStore.categoryList.forEach((item) => this.updateTag(item))
     this.relatedProduct.categoryList = productsStore.categoryList
+
+    // 客製化 info check alert 按鈕
+    this.swalInfoCheckWithBootstrapButtons = this.$swal.mixin({
+      customClass: {
+        confirmButton: 'm-1 btn btn-default'
+      },
+      buttonsStyling: false
+    })
   }
 }
 </script>

@@ -5,39 +5,37 @@
       <button type="button" class="btn btn-dark" @click="deleteOrder('all')">清除全部訂單</button>
     </div>
     <div>
-      <p v-if="!ordersList.length" class="py-5 text-center">目前沒有訂單</p>
+      <p v-if="!currentOrderList.length" class="py-5 text-center">目前沒有訂單</p>
       <!-- 訂單列表 -->
       <table v-else class="table align-middle table-sm">
         <thead>
-            <tr>
-              <th>訂單編號</th>
-              <th class="d-none d-md-table-cell text-center">訂單時間</th>
-              <th class="d-none d-lg-table-cell text-center">客戶姓名</th>
-              <th class="text-nowrap">付款<span class="d-block d-sm-inline">狀態</span></th>
-              <th class="text-nowrap">處理<span class="d-block d-sm-inline">狀態</span></th>
-              <th class="d-none d-lg-table-cell text-center">總金額</th>
-              <th></th>
-            </tr>
+          <tr>
+            <th>訂單編號</th>
+            <th class="d-none d-md-table-cell text-center">訂單時間</th>
+            <th class="d-none d-lg-table-cell text-center">客戶姓名</th>
+            <th class="text-nowrap">付款<span class="d-block d-sm-inline">狀態</span></th>
+            <th class="text-nowrap">處理<span class="d-block d-sm-inline">狀態</span></th>
+            <th class="d-none d-lg-table-cell text-center">總金額</th>
+            <th></th>
+          </tr>
         </thead>
         <tbody>
-          <tr v-for="order in ordersList" :key="order.id">
+          <tr v-for="order in currentOrderList" :key="order.id">
             <td>{{ order.id }}</td>
-            <td  class="d-none d-md-table-cell text-center">{{ new Date(order.create_at * 1000).toLocaleString().split(" ")[0] }}</td>
+            <td class="d-none d-md-table-cell text-center">{{ new Date(order.create_at * 1000).toLocaleString().split(" ")[0] }}</td>
             <td class="d-none d-lg-table-cell text-center">{{ order.user.name }}</td>
             <td>
-                <span v-if="order.is_paid" class="text-danger text-nowrap">已付款</span>
-                <span v-else class="text-nowrap">未付款</span>
+              <span v-if="order.is_paid" class="text-danger text-nowrap">已付款</span>
+              <span v-else class="text-nowrap">未付款</span>
             </td>
             <td>
-                <span v-if="order.is_shipping" class="text-nowrap">已出貨</span>
-                <span v-else class="text-danger text-nowrap">未出貨</span>
+              <span v-if="order.is_shipping" class="text-nowrap">已出貨</span>
+              <span v-else class="text-danger text-nowrap">未出貨</span>
             </td>
             <td class="d-none d-lg-table-cell text-end">NT$ {{ order.total.toLocaleString() }}</td>
             <td>
               <div class="btn-group align-items-center">
-                <button
-                  type="button"
-                  class="btn border-0" @click="showOrder(order.id)">
+                <button type="button" class="btn border-0" @click="showOrder(order.id)">
                   <i class="bi bi-eye text-default"></i>
                 </button>
                 <button type="button" class="btn border-0" @click="deleteOrder(order.id)">
@@ -49,7 +47,7 @@
         </tbody>
       </table>
       <!-- 頁碼 -->
-      <paginationComponent :pagination="pagination" @get-List="getOrderList"></paginationComponent>
+      <paginationComponent :pagination="pagination" @get-List="getCurrentOrderList"></paginationComponent>
     </div>
   </div>
 </template>
@@ -64,16 +62,22 @@ const { VITE_API, VITE_PATH } = import.meta.env
 export default {
   data () {
     return {
-      ordersList: [],
-      pagination: {}
+      // 當頁訂單列表
+      currentOrderList: [],
+      // 頁碼
+      pagination: {},
+      // 客製化 question alert 按鈕
+      swalQuestionWithBootstrapButtons: null,
+      // 客製化 info check alert 按鈕
+      swalInfoCheckWithBootstrapButtons: null
     }
   },
   methods: {
     // 獲取所有訂單
-    async getOrderList (page = 1) {
-      await ordersStore.getAllOrders(page)
+    async getCurrentOrderList (page = 1) {
+      await ordersStore.getCurrentOrderList(page)
 
-      this.ordersList = ordersStore.allOrders
+      this.currentOrderList = ordersStore.currentOrderList
       this.pagination = ordersStore.pagination
     },
 
@@ -93,14 +97,12 @@ export default {
       }
 
       // 刪除前詢問
-      this.$swal
+      this.swalQuestionWithBootstrapButtons
         .fire({
           title: alertTitle,
           text: '請再次確認，以免影響顧客權益',
           icon: 'question',
           showCancelButton: true,
-          confirmButtonColor: '#787878',
-          cancelButtonColor: '#333333',
           cancelButtonText: '取消',
           confirmButtonText: '確認刪除'
         })
@@ -112,22 +114,20 @@ export default {
             this.axios.delete(url)
               .then(res => {
                 // 提示訊息
-                this.$swal.fire({
+                this.swalInfoCheckWithBootstrapButtons.fire({
                   title: res.data.message,
-                  confirmButtonColor: '#333333',
                   confirmButtonText: '確認'
                 })
 
                 // 重整訂單列表
-                this.getOrderList()
+                this.getCurrentOrderList()
               })
               .catch(err => {
-                this.$swal.fire(
-                  {
-                    icon: 'error',
-                    text: err.response.data.message
-                  }
-                )
+                this.swalInfoCheckWithBootstrapButtons.fire({
+                  icon: 'error',
+                  text: err.response.data.message,
+                  confirmButtonText: '確認'
+                })
               })
               .finally(() => {
                 // 關閉 loading
@@ -144,9 +144,24 @@ export default {
     paginationComponent
   },
   mounted () {
-    console.log('Orders 的 mounted，即將執行確認登入')
     // 獲取所有資料
-    this.getOrderList()
+    this.getCurrentOrderList()
+
+    // 客製化 question alert 按鈕
+    this.swalQuestionWithBootstrapButtons = this.$swal.mixin({
+      customClass: {
+        confirmButton: 'm-1 btn btn-outline-default',
+        cancelButton: 'm-1 btn btn-default'
+      },
+      buttonsStyling: false
+    })
+    // 客製化 info check alert 按鈕
+    this.swalInfoCheckWithBootstrapButtons = this.$swal.mixin({
+      customClass: {
+        confirmButton: 'm-1 btn btn-default'
+      },
+      buttonsStyling: false
+    })
   }
 }
 </script>

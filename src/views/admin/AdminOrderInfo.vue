@@ -198,13 +198,17 @@ export default {
       // 訂單動作
       doAction: null,
       // 顯示 toast
-      toastState: true
+      toastState: true,
+      // 客製化 question alert 按鈕
+      swalQuestionWithBootstrapButtons: null,
+      // 客製化 info check alert 按鈕
+      swalInfoCheckWithBootstrapButtons: null
     }
   },
   methods: {
     // 取得該頁訂單資料
     getOrderInfo (id) {
-      const order = ordersStore.allOrders.filter(order => order.id === id)
+      const order = ordersStore.currentOrderList.filter(order => order.id === id)
 
       const tempData = {
         ...order[0],
@@ -234,14 +238,12 @@ export default {
         updateShipping: '更改為「已出貨」'
       }
 
-      this.$swal
+      this.swalQuestionWithBootstrapButtons
         .fire({
           title: `確定要更改為${questionText[action]}嗎？`,
           icon: 'question',
           text: '這個動作無法復原',
           showCancelButton: true,
-          confirmButtonColor: '#787878',
-          cancelButtonColor: '#333333',
           cancelButtonText: '取消',
           confirmButtonText: '確認更改'
         })
@@ -268,7 +270,11 @@ export default {
                 this.doAction = action
               })
               .catch(err => {
-                this.$swal.fire(err.response.data.message)
+                this.swalInfoCheckWithBootstrapButtons.fire({
+                  icon: 'error',
+                  text: err.response.data.message,
+                  confirmButtonText: '確認'
+                })
               })
               .finally(
                 // 關閉 loading
@@ -287,6 +293,22 @@ export default {
   mounted () {
     const id = this.$route.params.id
     this.getOrderInfo(id)
+
+    // 客製化 question alert 按鈕
+    this.swalQuestionWithBootstrapButtons = this.$swal.mixin({
+      customClass: {
+        confirmButton: 'm-1 btn btn-outline-default',
+        cancelButton: 'm-1 btn btn-default'
+      },
+      buttonsStyling: false
+    })
+    // 客製化 info check alert 按鈕
+    this.swalInfoCheckWithBootstrapButtons = this.$swal.mixin({
+      customClass: {
+        confirmButton: 'm-1 btn btn-default'
+      },
+      buttonsStyling: false
+    })
   }
 }
 </script>
