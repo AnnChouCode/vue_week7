@@ -173,7 +173,7 @@
               </div>
               <div class="col-12" v-if="tempArticleInfo.relatedProduct">
                 <div class="row g-3 g-md-1">
-                  <div class="col-6 col-md-4" v-for="product in tempArticleInfo.relatedProduct" :key="product"
+                  <div class="col-6 col-md-3" v-for="product in tempArticleInfo.relatedProduct" :key="product"
                     style="min-height:48px;">
                     <div class="border rounded-2 overflow-hidden h-100">
                       <div class="row g-3">
@@ -185,10 +185,8 @@
                         <div class="col-6 d-flex align-items-center">
                           {{ product.title }}
                         </div>
-                        <div class="col-2 d-flex justify-content-end">
-                          <button type="button" class="btn" @click="deleteRelatedProduct(product)">
-                            <i class="bi bi-x text-info"></i>
-                          </button>
+                        <div class="col-2 d-flex justify-content-center align-items-center">
+                          <button type="button" class="btn-close" aria-label="Close" @click="deleteRelatedProduct(product)"></button>
                         </div>
                       </div>
                     </div>
