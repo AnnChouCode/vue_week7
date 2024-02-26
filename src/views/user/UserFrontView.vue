@@ -15,11 +15,9 @@
             <RouterLink to="/orders" class="text-secondary">查訂單</RouterLink>
           </li>
           <li class="nav-item d-flex flex-column flex-lg-row gap-3 py-2">
-            <RouterLink to="/cart" class="text-secondary">
-              <div class="d-flex gap-1">
-                <p>購物車</p>
-                <div v-if="cartsList.total" class="bg-danger rounded-pill px-2 py-1 text-white" style="font-size:12px;">{{ cartsList.carts.length }}</div>
-              </div>
+            <RouterLink to="/cart" class="position-relative text-secondary">
+              <p>購物車</p>
+              <div v-if="cartsList.total" class="position-absolute top-0 start-100 translate-middle badge bg-danger rounded-pill px-2 py-1 text-white">{{ cartsList.carts.length }}</div>
             </RouterLink>
             <!-- 未登入 -->
             <RouterLink v-if="!isLoggedin" to="/userlogin" class="text-secondary">
