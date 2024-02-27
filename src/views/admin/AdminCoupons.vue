@@ -8,7 +8,7 @@
     <div>
       <p v-if="!couponList.length" class="py-5 text-center">目前沒有優惠券</p>
       <!-- 優惠券列表 -->
-      <table v-else class="table align-middle">
+      <table v-else class="table align-middle fs-info fs-md-6">
         <thead>
           <tr>
             <th class="d-none d-md-table-cell">優惠碼</th>

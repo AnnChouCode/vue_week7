@@ -3,11 +3,11 @@
     <div class="d-flex justify-content-between py-4 py-md-5 ">
       <h2 class="fw-bold">產品管理</h2>
       <!-- btn 建立新產品 -->
-      <router-link to="/admin/productinfo/new" class="btn btn-dark">建立新的產品</router-link>
+      <router-link to="/admin/productinfo/new" class="btn btn-dark d-flex align-items-center">建立新的產品</router-link>
     </div>
     <!-- 產品列表 -->
     <div>
-      <table class="table align-middle">
+      <table class="table align-middle fs-info fs-md-6">
         <thead>
           <tr>
             <th>圖片</th>
@@ -33,7 +33,7 @@
               </div>
             </td>
             <td class="d-none d-lg-table-cell">
-              <div class="h5 text-center">
+              <div class="text-center">
                 {{ product.origin_price }} / {{ product.price }}
               </div>
             </td>

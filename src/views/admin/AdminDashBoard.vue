@@ -1,29 +1,29 @@
 <template>
     <div class="overflow-y-scroll scrollbar-y-hide vh-100">
         <h2 class="py-4 py-md-5 fw-bold">總覽</h2>
-        <div class="row g-1 p-3 bg-light">
+        <div class="row g-1 p-2 p-md-3 bg-light">
             <div class="col-12 col-md-3">
                 <div class="p-3 ">
-                    <h3 class="mb-1 fs-4 fw-bold">歡迎回來</h3>
+                    <h3 class="mb-1 fs-5 fw-bold">歡迎回來</h3>
                     <p>這是您的待辦事項</p>
                 </div>
             </div>
             <div class="col-12 col-md-3">
                 <div class="p-3 border rounded-2 bg-white">
-                    <p class="fs-4">{{isNotPaidOrder.length}}</p>
-                    <h3 class="fs-5 fw-bold text-info">尚未付款的訂單</h3>
+                    <p class="fs-5">{{isNotPaidOrder.length}}</p>
+                    <h3 class="fs-6 fw-bold text-info">尚未付款的訂單</h3>
                 </div>
             </div>
             <div class="col-12 col-md-3">
                 <div class="p-3 border rounded-2 bg-white">
-                    <p class="fs-4">{{isNotShippingOrder.length}}</p>
-                    <h3 class="fs-5 fw-bold text-info">待出貨的訂單</h3>
+                    <p class="fs-5">{{isNotShippingOrder.length}}</p>
+                    <h3 class="fs-6 fw-bold text-info">待出貨的訂單</h3>
                 </div>
             </div>
             <div class="col-12 col-md-3">
                 <div class="p-3 border rounded-2 bg-white">
-                    <p class="fs-4">{{needReplenishedProduct.length}}</p>
-                    <h3 class="fs-5 fw-bold text-info">需補貨商品</h3>
+                    <p class="fs-5">{{needReplenishedProduct.length}}</p>
+                    <h3 class="fs-6 fw-bold text-info">需補貨商品</h3>
                 </div>
             </div>
         </div>

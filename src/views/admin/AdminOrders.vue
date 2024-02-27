@@ -7,7 +7,7 @@
     <div>
       <p v-if="!currentOrderList.length" class="py-5 text-center">目前沒有訂單</p>
       <!-- 訂單列表 -->
-      <table v-else class="table align-middle table-sm">
+      <table v-else class="table align-middle table-sm fs-info fs-md-6">
         <thead>
           <tr>
             <th>訂單編號</th>

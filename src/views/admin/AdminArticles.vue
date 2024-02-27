@@ -8,7 +8,7 @@
     <div>
       <p v-if="!currentArticles.length" class="py-5 text-center">目前沒有文章</p>
       <!-- 文章列表 -->
-      <table v-else class="table align-middle">
+      <table v-else class="table align-middle fs-info fs-md-6">
         <thead>
           <tr>
             <th>標題</th>

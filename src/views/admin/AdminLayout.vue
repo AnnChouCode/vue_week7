@@ -2,21 +2,18 @@
   <!-- 導覽列 mobile -->
   <nav class="d-flex d-lg-none flex-column sticky-top bg-dark p-2">
     <div class="d-flex justify-content-between align-items-center">
-      <h2 class="fs-4 text-white">Dessert Time</h2>
+      <h1 class="fs-4 text-white">Dessert Time</h1>
 
       <button
         type="button"
         class="btn border border-white"
-        data-bs-toggle="collapse"
-        data-bs-target="#collapseAdminMenu"
-        aria-expanded="false"
-        aria-controls="collapseAdminMenu"
+        @click="toggleNavCollapse"
       >
         <i class="bi bi-list text-white"></i>
       </button>
     </div>
     <!-- 選單 -->
-    <div class="collapse" id="collapseAdminMenu">
+    <div class="collapse" id="collapseAdminMenu" ref="navCollapse">
       <ul class="navbar-nav text-center pt-3">
         <li>
           <router-link
@@ -75,7 +72,7 @@
       <div
         class="position-sticky top-0 d-none d-lg-flex flex-column col-lg-2 py-3 px-0 text-white bg-dark vh-100"
       >
-        <h2 class="px-3 mb-3 mb-md-0 me-md-auto text-white fs-4">Dessert Time</h2>
+        <h2 class="px-3 mb-3 mb-md-0 me-md-auto fs-4">Dessert Time</h2>
 
         <hr />
         <ul class="nav flex-column mb-auto">
@@ -138,19 +135,37 @@
 </template>
 
 <script>
+import Collapse from 'bootstrap/js/dist/collapse'
+
 import { useAdminLoginStore } from '@/stores/adminLoginStore.js'
 import { mapStores } from 'pinia'
 const adminLoginStore = useAdminLoginStore()
 
 export default {
+  data () {
+    return {
+      navCollapse: null
+    }
+  },
   methods: {
     logout () {
       document.cookie = 'user=;expires=;'
       this.$router.push('/home')
+    },
+    toggleNavCollapse () {
+      this.navCollapse.toggle()
     }
   },
   computed: {
     ...mapStores(useAdminLoginStore)
+  },
+  watch: {
+    $route () {
+      this.navCollapse.hide()
+    }
+  },
+  mounted () {
+    this.navCollapse = new Collapse(this.$refs.navCollapse, { toggle: false })
   },
   created () {
     adminLoginStore.checkLogin()
