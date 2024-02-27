@@ -7,9 +7,17 @@
 // bootstrap icon
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
-// custom
+
+
+// CUSTOM
 @import './base/base';
+
+// CUSTOM Utility
 @import './base/utility';
+
+// BOOTSTRAP utilities api，for font-size RWD
+@import "bootstrap/scss/utilities/api";
+
 @import './utils/custom'; 
 
 // components

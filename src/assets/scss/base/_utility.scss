@@ -1,3 +1,11 @@
+//Generate utilites for Font Size
+$utilities: map-merge($utilities,
+    ("font-size": map-merge(map-get($utilities, "font-size"),
+        (responsive: true,
+        )),
+    ));
+
+
 // 暗色 navlink
 .theme-dark-navlink {
   transition: background-color 0.3s;
@@ -9,7 +17,7 @@
   }
   
   .theme-dark-navlink-active {
-    color: black;
+    color: black !important ;
     font-weight: bold;
     background-color: white;
   }
