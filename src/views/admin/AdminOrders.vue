@@ -22,7 +22,7 @@
         <tbody>
           <tr v-for="order in currentOrderList" :key="order.id">
             <td>{{ order.id }}</td>
-            <td class="d-none d-md-table-cell text-center">{{ new Date(order.create_at * 1000).toLocaleString().split(" ")[0] }}</td>
+            <td class="d-none d-md-table-cell text-center">{{ new Date(order.create_at * 1000).toLocaleDateString() }}</td>
             <td class="d-none d-lg-table-cell text-center">{{ order.user.name }}</td>
             <td>
               <span v-if="order.is_paid" class="text-danger text-nowrap">已付款</span>

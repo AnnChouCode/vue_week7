@@ -32,7 +32,7 @@
             <td class="d-none d-lg-table-cell">
               {{ article.author }}
             </td>
-            <td class="d-none d-md-table-cell">{{ new Date(article.create_at * 1000).toLocaleString().split(" ")[0] }}
+            <td class="d-none d-md-table-cell">{{ new Date(article.create_at * 1000).toLocaleDateString() }}
             </td>
             <td>
               <div class="btn-group align-items-center">
