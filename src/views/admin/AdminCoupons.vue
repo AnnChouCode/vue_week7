@@ -25,7 +25,7 @@
               <p class="fw-bold">{{ coupon.title }}</p>
               <span class="text-default">折扣：{{ coupon.percent }} %</span>
             </td>
-            <td>{{ new Date(coupon.due_date * 1000).toLocaleString().split(" ")[0] }}</td>
+            <td>{{ new Date(coupon.due_date * 1000).toLocaleDateString() }}</td>
             <td>
               <span v-if="coupon.is_enabled" class="text-danger">啟用中</span>
               <span v-else>未啟用</span>
@@ -135,13 +135,6 @@ export default {
     showCoupon (action, data) {
       if (action === 'create') {
         this.isNew = true
-        this.tempCoupon = {
-          title: '',
-          is_enabled: 0,
-          percent: null,
-          due_date: new Date().getTime() / 1000,
-          code: ''
-        }
       }
 
       if (action === 'edit') {

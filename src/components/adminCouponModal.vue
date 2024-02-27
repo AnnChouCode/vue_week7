@@ -5,7 +5,7 @@
         <div class="modal-header">
           <h5 v-if="isNew" class="modal-title fw-bold">建立優惠券</h5>
           <h5 v-else class="modal-title fw-bold">優惠券：{{ tempCouponInfo.code }}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" @click="closeModal"></button>
         </div>
         <div class="modal-body">
           <v-form v-slot="{ errors }" class="d-flex flex-column gap-3">
@@ -27,8 +27,8 @@
               <label for="discound" class="form-label fw-bold has-required">訂單折扣百分比</label>
               <span class="ms-2 text-info fs-info">建立後無法更改</span>
               <v-field class="form-control" type="number" placeholder="請輸入 1-99" v-model.number="tempCouponInfo.percent"
-                id="discount" name="discount" :class="{ 'is-invalid': errors['code'] }"
-                rules="required|between:1,99" :disabled="!isNew"></v-field>
+                id="discount" name="discount" :class="{ 'is-invalid': errors['code'] }" rules="required|between:1,99"
+                :disabled="!isNew"></v-field>
               <error-message name="discount" class="invalid-feedback"></error-message>
             </div>
             <div>
@@ -71,14 +71,14 @@ export default {
   },
   props: ['couponInfo', 'isNew'],
   watch: {
-    // 將父層 coupon 資料處理
+    // 將父層傳入的 coupon 資料處理
     couponInfo () {
       this.tempCouponInfo = this.couponInfo
       // 將時間格式改為 YYYY-MM-DD
       const date = new Date(this.couponInfo.due_date * 1000).toISOString().split('T')
       this.due_date = date[0]
     },
-    // 將輸入格的時間轉換格式
+    // 將輸入格的時間由豪秒轉換為秒，用來存回後端
     due_date () {
       const timestamp = new Date(this.due_date)
       this.tempCouponInfo.due_date = Math.floor(timestamp / 1000)
@@ -92,6 +92,8 @@ export default {
 
     // 關閉 modal
     closeModal () {
+      this.tempCouponInfo = {}
+      this.due_date = ''
       this.modal.hide()
     }
   },
