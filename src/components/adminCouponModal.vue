@@ -8,7 +8,7 @@
           <button type="button" class="btn-close" @click="closeModal"></button>
         </div>
         <div class="modal-body">
-          <v-form v-slot="{ errors }" class="d-flex flex-column gap-3">
+          <v-form v-slot="{ errors }" class="d-flex flex-column gap-3" ref="modalForm">
             <div>
               <label for="title" class="form-label fw-bold has-required">優惠券標題</label>
               <v-field class="form-control" type="text" placeholder="請輸入標題" v-model="tempCouponInfo.title" id="title"
@@ -92,8 +92,7 @@ export default {
 
     // 關閉 modal
     closeModal () {
-      this.tempCouponInfo = {}
-      this.due_date = ''
+      this.$refs.modalForm.resetForm()
       this.modal.hide()
     }
   },
